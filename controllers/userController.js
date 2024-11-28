@@ -1,13 +1,15 @@
-import User from "../models/userSchema";
+import User from "../models/userModel.js";
 import bcrypt from 'bcrypt'
+import Jwt from 'jsonwebtoken';
 
-export const signUp = async (req, res, next) => {
+export const signUp = async (req, res) => {
     try {
 
-        const { username, email, password } = req.body;
+        const { userName, email, password } = req.body;
 
         // Check if user already exists
         const existingUser = await User.findOne({ email });
+
         if (existingUser) {
             return res.status(200).json({ message: "E-mail already registered" });
         };
@@ -15,7 +17,7 @@ export const signUp = async (req, res, next) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         // Create a new user
         const newUser = new User({
-            username,
+            userName,
             email,
             password: hashedPassword
         });
@@ -32,20 +34,20 @@ export const signUp = async (req, res, next) => {
 
 export const signIn = async (req, res, next) => {
     try {
-        const { email, Password } = req.body;
+        const { email, password } = req.body;
 
-        if (!email || !Password) {
+        if (!email || !password) {
             return res.status(400).json({ message: 'Email and password are required' });
         }
 
-        const validUser = await Users.findOne({ email });
+        const validUser = await User.findOne({ email });
 
         if (!validUser) {
             return res.status(401).json({ message: "User not found" });
         };
 
         // Compare passwords
-        const validpassword = await bcrypt.compareSync(Password, validUser.password);
+        const validpassword = await bcrypt.compareSync(password, validUser.password);
         // Check the password valid or not
         if (!validpassword) {
             return res.status(401).json({ message: "Invalid username or password" });

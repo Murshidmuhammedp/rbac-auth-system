@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const newUser = new mongoose.Schema({
-    username: {
+    userName: {
         type: String,
         required: true,
         trim: true,
@@ -18,8 +18,11 @@ const newUser = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['Admin', 'User', 'Moderator'],
         default: 'User',
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false
     },
     createdAt: {
         type: Date,
