@@ -61,9 +61,9 @@ export const adminSignIn = async (req, res) => {
         // Generate JWT
         const token = Jwt.sign({ id: validUser._id, role: validUser.role }, process.env.ADMIN_JWT_SECRET_KEY);
         const { password: hashedPassword, ...rest } = validUser._doc;
-        // const expiryDate = new Date(Date.now() + 60 * 1000); , expires: expiryDate
+        const expiryDate = new Date(Date.now() + 60 * 1000);
         // cookie setting 
-        res.cookie('access_token', token, { httpOnly: true });
+        res.cookie('access_token', token, { httpOnly: true, expires: expiryDate });
         res.status(200).json({ message: "successfully login", token, data: rest });
     } catch (error) {
         console.error(error);

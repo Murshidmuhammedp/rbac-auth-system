@@ -1,5 +1,5 @@
 import express from 'express'
-import { moderatorSignIn, ModeratorSignUp } from '../controllers/moderatorController.js'
+import { moderatorSignIn, ModeratorSignUp } from '../controllers/moderatorController/moderatorController.js'
 
 const router = express.Router()
 

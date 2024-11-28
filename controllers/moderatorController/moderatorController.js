@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 import Jwt from 'jsonwebtoken';
-import Moderator from '../models/moderatorModel.js';
+import Moderator from '../../models/moderatorModel.js';
 
 export const ModeratorSignUp = async (req, res) => {
     try {
