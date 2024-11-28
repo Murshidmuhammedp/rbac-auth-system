@@ -2,7 +2,7 @@ import Jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
 
-export const usertoken = (req, res, next) => {
+export const verifyUser = (req, res, next) => {
     try {
         const token = req.header["authorization"];
 
@@ -13,6 +13,9 @@ export const usertoken = (req, res, next) => {
         Jwt.verify(token, process.env.USER_JWT_SECRET_KEY, (err, decode) => {
             if (err) {
                 res.status(401).json({ message: "Unauthorized" });
+            }
+            if (decode.role !== 'User') {
+                return res.status(403).json({ message: "Access Denied." });
             }
             req.email = decode.email;
             next();

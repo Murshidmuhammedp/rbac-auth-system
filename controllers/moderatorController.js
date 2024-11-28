@@ -59,7 +59,7 @@ export const moderatorSignIn = async (req, res) => {
         };
 
         // Generate JWT
-        const token = Jwt.sign({ id: validUser._id }, process.env.MODERATOR_JWT_SECRET_KEY);
+        const token = Jwt.sign({ id: validUser._id, role: validUser.role }, process.env.MODERATOR_JWT_SECRET_KEY);
         const { password: hashedPassword, ...rest } = validUser._doc;
         const expiryDate = new Date(Date.now() + 60 * 1000);
         // cookie setting 
